@@ -2,8 +2,39 @@ import React from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import {
+  useAddProductMutation,
+  useGetProductsQuery,
+  useRemoveProductMutation,
+  useUpdateProductMutation
+} from './features/api/apiSlice';
 
 function App() {
+  // const { data, isLoading, isError, isSuccess, error } = useGetProductsQuery(null, { refetchOnMountOrArgChange: true });
+  const { data, isLoading, isError, isSuccess, error } = useGetProductsQuery();
+  const [postProduct, result] = useAddProductMutation();
+  // const {isLoading, isError, isSuccess, error} = result; 
+  const [updateProduct] = useUpdateProductMutation();
+  const [removeProduct] = useRemoveProductMutation();
+
+
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
+  const handleAddProduct = () => {
+    const data = {};
+    postProduct(data);
+  };
+  const handleUpdateProduct = (id) => {
+    updateProduct(id);
+  };
+  const handleRemoveProduct = (id) => {
+    removeProduct(id);
+  };
+
+
   return (
     <div className="App">
       <header className="App-header">
